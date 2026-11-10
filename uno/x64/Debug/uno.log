@@ -1,0 +1,7 @@
+﻿  play.c
+C:\www\polytech\premiereAnnee\programmationEtAlgo\C\programmesC\uno\uno\play.c(2,10): warning C4067: jetons inattendus après la directive du préprocesseur - saut de ligne attendu
+C:\www\polytech\premiereAnnee\programmationEtAlgo\C\programmesC\uno\uno\play.c(8,30): warning C4474: 'printf' : trop d'arguments passés pour la chaîne de format
+      C:\www\polytech\premiereAnnee\programmationEtAlgo\C\programmesC\uno\uno\play.c(8,30):
+      les espaces réservés et leurs paramètres attendent des arguments 0 variadiques, mais des arguments 1 ont été fournis
+  
+  uno.vcxproj -> C:\www\polytech\premiereAnnee\programmationEtAlgo\C\programmesC\uno\x64\Debug\uno.exe
