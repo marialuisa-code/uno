@@ -19,10 +19,10 @@ int jouerLaCartePiochee() {
 	return veutJouerSaCarte;
 }
 
-int jouerUneCarte(joueur) {
+int jouerUneCarte(int joueur) {
 	int joueUneCarteDansPaquet = 0;
 	afficherCartes(joueur);
-	printf("Joueur %d, Voulez-vous jouer une des cartes dans votre paquet? (1 pour oui et 0 pour non): \n", joueur);
+	printf("Joueur %d, Voulez-vous jouer une des cartes dans votre paquet? (1 pour oui et 0 pour non): \n", joueur + 1);
 
 	scanf_s("%d", &joueUneCarteDansPaquet);
 	if (joueUneCarteDansPaquet == 1) {
@@ -34,6 +34,12 @@ int jouerUneCarte(joueur) {
 		printf("Choisir la carte à jouer (1, 2, 3 etc...):");
 		scanf_s("%d", &indexCarte);
 		printf("Le joueur joue la carte n* %d de son paquet\n", indexCarte);
+		indexCarte--;
+		printf("Le joueur %d joue la carte : %s\n",
+			joueur,
+			mainsJoueurs[joueur] + indexCarte * 5);
+
+		retirerCarte(joueur, indexCarte);
 
 	}
 	else {

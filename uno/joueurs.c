@@ -7,6 +7,41 @@ char** mainsJoueurs = NULL;
 int* nbCartes = NULL;
 int* capaciteCartes = NULL;
 
+int allouerTableaux(int nbJoueurs) {
+    mainsJoueurs = calloc(nbJoueurs, sizeof(char*));
+    nbCartes = calloc(nbJoueurs, sizeof(int));
+    capaciteCartes = calloc(nbJoueurs, sizeof(int));
+
+    return mainsJoueurs != NULL
+        && nbCartes != NULL
+        && capaciteCartes != NULL;
+}
+
+int initialiserUnJoueur(int joueur) {
+    capaciteCartes[joueur] = CAPACITE_INITIALE_CARTES;
+    nbCartes[joueur] = 0;
+    mainsJoueurs[joueur] = malloc(CAPACITE_INITIALE_CARTES * TAILLE_CARTE);
+
+    return mainsJoueurs[joueur] != NULL;
+}
+
+void initialiserJoueurs(int nbJoueurs) {
+    if (!allouerTableaux(nbJoueurs)) {
+        printf("ERREUR : allocation des tableaux impossible\n");
+        return;
+    }
+
+    for (int i = 0; i < nbJoueurs; i++) {
+        if (!initialiserUnJoueur(i)) {
+            printf("ERREUR : allocation du joueur %d impossible\n", i + 1);
+            return;
+        }
+        printf("Joueur %d initialisé !\n", i + 1);
+    }
+
+    printf("Tous les joueurs sont initialisés !\n");
+}
+
 int demanderNbJoueurs() {
 	int nbJoueurs;
 	printf("Entrez le nombre de joueurs de la partie uno: ");
@@ -15,65 +50,34 @@ int demanderNbJoueurs() {
 	return nbJoueurs;
 }
 
-void initialiserJoueurs(int nbJoueurs) {
-    mainsJoueurs = calloc(nbJoueurs, sizeof(char*));
-    nbCartes = calloc(nbJoueurs, sizeof(int));
-    capaciteCartes = calloc(nbJoueurs, sizeof(int));
-
-    if (mainsJoueurs == NULL ||
-        nbCartes == NULL ||
-        capaciteCartes == NULL) {
-        printf("ERREUR ALLOCATION PRINCIPALE\n");
+void ajouterCarte(int joueur, char* carte) {
+    if (mainPleine(joueur) && !agrandirMain(joueur)) {
+        printf("Erreur d'allocation mémoire !\n");
         return;
     }
-
-    for (int i = 0; i < nbJoueurs; i++) {
-        fflush(stdout);
-
-        capaciteCartes[i] = 7;
-
-        mainsJoueurs[i] = malloc(35);
-
-        if (mainsJoueurs[i] == NULL) {
-            printf("ERREUR allocation joueur %d\n", i + 1);
-            return;
-        }
-
-        nbCartes[i] = 0;
-
-        printf("Joueur %d initialise !\n", i + 1);
-    }
-
-    printf("TOUS LES JOUEURS SONT INITIALISES !\n");
+    ecrireCarte(joueur, carte);
 }
 
-void ajouterCarte(int joueur, const char* carte) {
+int mainPleine(int joueur) {
+    return nbCartes[joueur] == capaciteCartes[joueur];
+}
 
-    if (nbCartes[joueur] == capaciteCartes[joueur]) {
-
-        int nouvelleCapacite = capaciteCartes[joueur] * 2;
-        char* temp = realloc(
-            mainsJoueurs[joueur],
-            nouvelleCapacite * sizeof(char[5])
-        );
-        if (temp == NULL) {
-            printf("Erreur d'allocation mémoire !\n");
-            return;
-        }
-
-        mainsJoueurs[joueur] = temp;
-        capaciteCartes[joueur] = nouvelleCapacite;
+int agrandirMain(int joueur) {
+    int nouvelleCapacite = capaciteCartes[joueur] * 2;
+    char* temp = realloc(mainsJoueurs[joueur], nouvelleCapacite * TAILLE_CARTE);
+    if (temp == NULL) {
+        return 0;
     }
+    mainsJoueurs[joueur] = temp;
+    capaciteCartes[joueur] = nouvelleCapacite;
+    return 1;
+}
 
-    strcpy_s(
-        mainsJoueurs[joueur] + nbCartes[joueur] * 5,
-        5,
-        carte
-    );
-
+void ecrireCarte(int joueur, char* carte) {
+    char* placeLibre = mainsJoueurs[joueur] + nbCartes[joueur] * TAILLE_CARTE;
+    strcpy_s(placeLibre, TAILLE_CARTE, carte);
     nbCartes[joueur]++;
 }
-
 
 void afficherCartes(int joueur) {
     printf("\nCartes du joueur %d :\n", joueur + 1);

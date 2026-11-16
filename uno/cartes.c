@@ -15,32 +15,30 @@ void recupererCarte(int joueur, int indice) {
     nbCartesPioche--;
 }
 
-int* retirerCarte(int* tableau, int* size, int index) {
-    if (index < 0 || index >= *size) {
-        printf("Invalid index.\n");
-        return tableau;
-    }
-
-    // Shift elements left
-    for (int i = index; i < *size - 1; i++) {
-        tableau[i] = tableau[i + 1];
-    }
-
-    (*size)--;
-
-    // Resize memory
-    int* newArr = realloc(tableau, (*size) * sizeof(int));
-    if (!newArr && *size > 0) {
-        printf("Memory reallocation failed.\n");
-        return tableau; // Keep old array if realloc fails
-    }
-
-    return newArr;
+char* adresseCarte(int joueur, int index) {
+    return mainsJoueurs[joueur] + index * TAILLE_CARTE;
 }
 
+int indexValide(int joueur, int index) {
+    return index >= 0 && index < nbCartes[joueur];
+}
+
+void refermerLeVide(int joueur, int index) {
+    for (int i = index; i < nbCartes[joueur] - 1; i++) {
+        strcpy_s(adresseCarte(joueur, i), TAILLE_CARTE, adresseCarte(joueur, i + 1));
+    }
+}
+
+void retirerCarte(int joueur, int index) {
+    if (!indexValide(joueur, index)) {
+        printf("Index invalide !\n");
+        return;
+    }
+    refermerLeVide(joueur, index);
+    nbCartes[joueur]--;
+}
 
 void distribution(int joueur, int count) {
-
     for (int i = 0; i < count; i++) {
         if (nbCartesPioche <= 0) {
             printf("Le paquet est vide !\n");

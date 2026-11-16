@@ -8,5 +8,8 @@ extern int nbCartesPioche;
 
 int piocheUneCarte(int borneMin, int borneMax);
 void retirerCarte(int joueur, int index);
+char* adresseCarte(int joueur, int index);
+int indexValide(int joueur, int index);
+void refermerLeVide(int joueur, int index);
 void recupererCarte(int joueur, int indice);
 void distribution(int joueur, int count);

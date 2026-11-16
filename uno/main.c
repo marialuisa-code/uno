@@ -19,9 +19,6 @@ int main()
     uno = 0;
     tours = 0;
 
-    char** mainsJoueurs = NULL;
-    int* nbCartes = NULL;
-
     printf("================================\n");
     printf("          JEU UNO\n");
     printf("================================\n");
@@ -52,6 +49,10 @@ int main()
             for (int i= 0; i <= nbJoueurs; i++) {
                 printf("\nLe joueur %d joue:\n", i );
                 jouerUneCarte(i);
+                if (nbCartes[i] == 0) {
+                    printf("Le joueur %d a gagné !\n", i + 1);
+                    uno = 1;
+                }
             }
             tours++;
         }
