@@ -2,14 +2,12 @@
 #include "cartes.h"
 #include "joueurs.h"
 #include "play.h"
+#include <stdlib.h>
+#include <time.h>
 
 int main()
 {
-	//me sert pour l'aléatoire
 	srand(time(NULL));
-
-
-    // Initialiser l'aléatoire
     srand((unsigned)time(NULL));
 
     int nbJoueurs;
@@ -33,8 +31,10 @@ int main()
     case 1:
 
         nbJoueurs = demanderNbJoueurs();
-
         initialiserJoueurs(nbJoueurs);
+        if (!initialiserPioche()) {
+            return 1;   
+        }
 
         for (int i = 0; i < nbJoueurs; i++) {
             distribution(i, 7);
@@ -45,9 +45,12 @@ int main()
             afficherCartes(i);
         }
 
+        demarrerDefausse();
+        printf("\nPremière carte de la défausse : %s\n", carteDuDessus());
+
         while (uno == 0 ) {
-            for (int i= 0; i <= nbJoueurs; i++) {
-                printf("\nLe joueur %d joue:\n", i );
+            for (int i= 0; i < nbJoueurs; i++) {
+                printf("\nLe joueur %d joue:\n", i + 1);
                 jouerUneCarte(i);
                 if (nbCartes[i] == 0) {
                     printf("Le joueur %d a gagné !\n", i + 1);
@@ -56,8 +59,6 @@ int main()
             }
             tours++;
         }
-        //libererJoueurs(nbJoueurs);
-
         break;
 
     case 2:

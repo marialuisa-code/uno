@@ -21,6 +21,7 @@ int initialiserUnJoueur(int joueur) {
     capaciteCartes[joueur] = CAPACITE_INITIALE_CARTES;
     nbCartes[joueur] = 0;
     mainsJoueurs[joueur] = malloc(CAPACITE_INITIALE_CARTES * TAILLE_CARTE);
+    //mainsJoueurs[joueur] = calloc(CAPACITE_INITIALE_CARTES , TAILLE_CARTE);
 
     return mainsJoueurs[joueur] != NULL;
 }
@@ -50,6 +51,9 @@ int demanderNbJoueurs() {
 	return nbJoueurs;
 }
 
+/*
+* Prend la carte et la met dans le tableau du joueur
+*/
 void ajouterCarte(int joueur, char* carte) {
     if (mainPleine(joueur) && !agrandirMain(joueur)) {
         printf("Erreur d'allocation mémoire !\n");
@@ -73,6 +77,10 @@ int agrandirMain(int joueur) {
     return 1;
 }
 
+/*
+* Ecrire une carte dans le deck du joueur quand par exemple le joueur pioche une carte 
+* pour l'ajout c'est dans (ajouterCarte)
+*/
 void ecrireCarte(int joueur, char* carte) {
     char* placeLibre = mainsJoueurs[joueur] + nbCartes[joueur] * TAILLE_CARTE;
     strcpy_s(placeLibre, TAILLE_CARTE, carte);
@@ -84,7 +92,7 @@ void afficherCartes(int joueur) {
     for (int i = 0; i < nbCartes[joueur]; i++) {
         printf("Carte %d : %s\n",
             i + 1,
-            mainsJoueurs[joueur] + (i * 5)
+            mainsJoueurs[joueur] + (i * TAILLE_CARTE)
         );
     }
 }
