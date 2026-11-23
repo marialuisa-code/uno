@@ -8,7 +8,6 @@
 int main()
 {
 	srand(time(NULL));
-    srand((unsigned)time(NULL));
 
     int nbJoueurs;
     int choix;
@@ -20,7 +19,7 @@ int main()
     tours = 0;
 
     printf("================================\n");
-    printf("          JEU UNO\n");
+    printf("           UNO\n");
     printf("================================\n");
 
     printf("1. Nouvelle partie\n");
@@ -74,6 +73,11 @@ int main()
             }
             tours++;
         }
+
+        free(nbJoueurs);
+        free(mainsJoueurs);
+        free(nbCartes);
+        free(capaciteCartes);
         
         break;
 
@@ -85,10 +89,7 @@ int main()
         printf("Choix invalide.\n");
         break;
     }
-    free(nbJoueurs);
-    free(mainsJoueurs);
-    free(nbCartes);
-    free(capaciteCartes);
+   
     return 0;
 }
 

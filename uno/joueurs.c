@@ -21,7 +21,6 @@ int initialiserUnJoueur(int joueur) {
     capaciteCartes[joueur] = CAPACITE_INITIALE_CARTES;
     nbCartes[joueur] = 0;
     mainsJoueurs[joueur] = malloc(CAPACITE_INITIALE_CARTES * TAILLE_CARTE);
-    //mainsJoueurs[joueur] = calloc(CAPACITE_INITIALE_CARTES , TAILLE_CARTE);
 
     return mainsJoueurs[joueur] != NULL;
 }
