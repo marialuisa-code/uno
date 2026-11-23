@@ -83,7 +83,6 @@ int piocherEtProposer(int joueur) {
 
 int jouerUneCarte(int joueur) {
 	afficherTour(joueur);
-
 	while (1) {
 		int choix = demanderChoix(joueur);
 

@@ -92,6 +92,23 @@ void distribution(int joueur, int count) {
     }
 }
 
+/*
+* % nbCartesPioche recadre le nombre dans l'intervalle, unsigned char pour specifier que si jamais le char depasse 127
+* on prednd pas la partie negative
+* tant que le premier caractère d'une carte n'est pas un chiffre on ne pose pas la carte, le jeu doit commencer par une carte normale
+*/
+void demarrerDefausse() {
+    int indice = rand() % nbCartesPioche;
+    while (!isdigit((unsigned char)pioche[indice][0])) {
+        indice = rand() % nbCartesPioche;
+    }
+
+    poserSurDefausse(pioche[indice]);
+    couleurActive = couleurCarte(pioche[indice]);
+    strcpy_s(pioche[indice], TAILLE_CARTE, pioche[nbCartesPioche - 1]);
+    nbCartesPioche--;
+}
+
 void poserSurDefausse(char* carte) {
     strcpy_s(defausse[nbCartesDefausse], TAILLE_CARTE, carte);
     nbCartesDefausse++;
@@ -145,10 +162,28 @@ int memeValeur(char* a, char* b) {
 }
 
 int verifierCartePosee(char* carteJoueur, char* cartePile, char couleurAttendue) {
+    int cartesAPiocher = nbCartesAPiocher(cartePile);
+    printf("Tu dois prendre %d cartes!", cartesAPiocher);
+
     if (estJoker(carteJoueur)) return 1;
     if (couleurCarte(carteJoueur) == couleurAttendue) return 1;
     if (memeValeur(carteJoueur, cartePile)) return 1;
     return 0;
+}
+
+/*
+* verifie si la valeur avant l'espace c'est un +2 ou +4 , ça nous permet de savoir combien le joueur d'après doit poser de cartes
+*/
+int nbCartesAPiocher(char* carteDansFausse) {
+    int nbAPiocher = 0;
+    if (carteDansFausse[0] == '+' && carteDansFausse[1] == '2') {
+        nbAPiocher = 2;
+    }
+    if (carteDansFausse[0] == '+' && carteDansFausse[1] == '4') {
+        nbAPiocher = 4;
+    }
+
+    return nbAPiocher;
 }
 
 /*
@@ -167,23 +202,6 @@ char demanderCouleur() {
         c = toupper(c);
     }
     return c;
-}
-
-/*
-* % nbCartesPioche recadre le nombre dans l'intervalle, unsigned char pour specifier que si jamais le char depasse 127 
-* on prednd pas la partie negative
-* tant que le premier caractère d'une carte n'est pas un chiffre on ne pose pas la carte, le jeu doit commencer par une carte normale
-*/
-void demarrerDefausse() {
-    int indice = rand() % nbCartesPioche;
-    while (!isdigit((unsigned char)pioche[indice][0])) {
-        indice = rand() % nbCartesPioche;
-    }
-
-    poserSurDefausse(pioche[indice]);
-    couleurActive = couleurCarte(pioche[indice]);
-    strcpy_s(pioche[indice], TAILLE_CARTE, pioche[nbCartesPioche - 1]);
-    nbCartesPioche--;
 }
 
 

@@ -26,6 +26,7 @@ int estJoker(char* carte);
 int longueurValeur(char* carte);
 int memeValeur(char* a, char* b);
 int verifierCartePosee(char* carteJoueur, char* cartePile, char couleurAttendue);
+int nbCartesAPiocher(char* carteDansFausse);
 char demanderCouleur();
 void demarrerDefausse();
 

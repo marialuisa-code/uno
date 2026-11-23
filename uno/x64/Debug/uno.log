@@ -1,2 +1,4 @@
-﻿  joueurs.c
+﻿  main.c
+C:\www\polytech\premiereAnnee\programmationEtAlgo\C\programmesC\uno\uno\main.c(10,8): warning C4244: 'fonction' : conversion de 'time_t' en 'unsigned int', perte possible de données
+C:\www\polytech\premiereAnnee\programmationEtAlgo\C\programmesC\uno\uno\main.c(88,10): warning C4022: 'free' : incompatibilité de pointeur pour le paramètre réel 1
   uno.vcxproj -> C:\www\polytech\premiereAnnee\programmationEtAlgo\C\programmesC\uno\x64\Debug\uno.exe

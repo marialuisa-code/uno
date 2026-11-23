@@ -14,6 +14,8 @@ int main()
     int choix;
     int tours; 
     int uno;
+    int aPiocher = 1;
+    int penaliteDejaSubie = 0;
     uno = 0;
     tours = 0;
 
@@ -49,9 +51,22 @@ int main()
         printf("\nPremière carte de la défausse : %s\n", carteDuDessus());
 
         while (uno == 0 ) {
-            for (int i= 0; i < nbJoueurs; i++) {
+            for (int i = 0; i < nbJoueurs; i++) {
                 printf("\nLe joueur %d joue:\n", i + 1);
-                jouerUneCarte(i);
+                aPiocher = nbCartesAPiocher(carteDuDessus());
+               
+                if (aPiocher > 0 && !penaliteDejaSubie) {
+                    printf("Le joueur %d pioche %d cartes !\n", i + 1, aPiocher);
+                    distribution(i, aPiocher);
+                    penaliteDejaSubie = 1;   
+                }
+                else {
+                    jouerUneCarte(i);
+                }
+
+                if (nbCartes[i] == 1) {
+                    printf("Le joueur %d a un UNO !\n", i + 1);
+                }
                 if (nbCartes[i] == 0) {
                     printf("Le joueur %d a gagné !\n", i + 1);
                     uno = 1;
@@ -59,6 +74,7 @@ int main()
             }
             tours++;
         }
+        
         break;
 
     case 2:
@@ -69,7 +85,10 @@ int main()
         printf("Choix invalide.\n");
         break;
     }
-
+    free(nbJoueurs);
+    free(mainsJoueurs);
+    free(nbCartes);
+    free(capaciteCartes);
     return 0;
 }
 
